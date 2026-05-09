@@ -1,0 +1,8 @@
+# file
+*.bin
+assess
+# directory
+data/
+obj/
+templates/
+experiments/*/
