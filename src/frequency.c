@@ -12,9 +12,10 @@ void calc_frequency(int n,
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                           F R E Q U E N C Y  T E S T
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*
- * Frequency Test (Monobit Test)
- *
+/**
+ * @brief Frequency Test (Monobit Test) を実行する
+ * 
+ * @details
  * NIST SP800-22 の Frequency Test を実行する。
  *
  * 目的:
@@ -33,18 +34,17 @@ void calc_frequency(int n,
  * 仮説:
  *   H0 : 0 と 1 は均等に出現する
  *   H1 : 0 と 1 に偏りがある
- *
- * 引数:
- *   n : 検定対象ビット数
- *
+ * 判定:
+ *   p_value >= ALPHA → SUCCESS
+ *   p_value <  ALPHA → FAILURE
+ * 
+ * @param[in] n : 検定対象ビット数
+ * @note
  * グローバル:
  *   epsilon : 検定対象ビット列
  *   stats   : 詳細ログ出力先
  *   results : p-value 出力先
  *
- * 判定:
- *   p_value >= ALPHA → SUCCESS
- *   p_value <  ALPHA → FAILURE
  */
 void
 Frequency(int n)
