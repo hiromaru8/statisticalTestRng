@@ -4,6 +4,9 @@
 #include "../include/externs.h"
 #include "../include/cephes.h"
 
+/* 関数プロトタイプ宣言 */
+void calc_block_frequency(int M, int n, double *chi_squared, double *p_value);
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                     B L O C K  F R E Q U E N C Y  T E S T
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -30,15 +33,45 @@
 void
 BlockFrequency(int M, int n)
 {
+
+	double	p_value;        /* 検定結果の p-value */
+	double	chi_squared;    /* カイ二乗統計量 */
+	
+	calc_block_frequency(M, n, &chi_squared, &p_value);
+	
+	/* ===== 統計情報をログファイルへ出力 ===== */
+	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t\tBLOCK FREQUENCY TEST\n");
+	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t---------------------------------------------\n");
+	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\tCOMPUTATIONAL INFORMATION:\n");
+	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t---------------------------------------------\n");
+	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t(a) Chi^2           = %f\n", chi_squared);
+	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t(b) # of substrings = %d\n", n/M);
+	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t(c) block length    = %d\n", M);
+	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t(d) Note: %d bits were discarded.\n", n % M);
+	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t---------------------------------------------\n");
+
+	/*
+	 * p-value と判定結果を出力
+	 *
+	 * p-value < ALPHA :
+	 *     帰無仮説（ランダムである）を棄却 → FAILURE
+	 *
+	 * p-value >= ALPHA :
+	 *     ランダム性を棄却できない → SUCCESS
+	 */
+	fprintf(stats[TEST_BLOCK_FREQUENCY], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_BLOCK_FREQUENCY]);
+	fprintf(results[TEST_BLOCK_FREQUENCY], "%f\n", p_value); fflush(results[TEST_BLOCK_FREQUENCY]);
+}
+
+void calc_block_frequency(int M, int n, double *chi_squared, double *p_value)
+{
 	int		i, j;			/* ループカウンタ */
 	int		N;              /* ブロック数 (= n / M) */
 	int		blockSum;       /* 各ブロック内の 1 の個数 */
 
-	double	p_value;        /* 検定結果の p-value */
 	double	sum;            /* 偏差平方和 */
 	double	pi;             /* ブロック内の 1 の割合 */
 	double	v;              /* 0.5 からの偏差 */
-	double	chi_squared;    /* カイ二乗統計量 */
 	
 	/* 
 	 * 入力ビット列を M ビット単位で分割したときの
@@ -46,6 +79,7 @@ BlockFrequency(int M, int n)
 	 * 余りビットは使用しない。
 	 */
 	N = n/M; 		/* # OF SUBSTRING BLOCKS      */
+
 
 	/* 偏差平方和の初期化 */
 	sum = 0.0;
@@ -90,7 +124,7 @@ BlockFrequency(int M, int n)
 	 *
 	 * χ² = 4M Σ(pi - 0.5)^2
 	 */
-	chi_squared = 4.0 * M * sum;
+	*chi_squared = 4.0 * M * sum;
 
 	/*
 	 * 不完全ガンマ関数の補関数を使用して
@@ -105,28 +139,5 @@ BlockFrequency(int M, int n)
 	 * カイ二乗分布は、ガンマ分布の特殊なケースであるため、ガンマ関数を用いて p-value を計算する。
 	 * 自由度 k のカイ二乗分布は、ガンマ分布の形状パラメータ a = k/2、尺度パラメータ θ = 2 の場合に対応する。
 	 */
-	p_value = cephes_igamc(N/2.0, chi_squared/2.0);
-
-	/* ===== 統計情報をログファイルへ出力 ===== */
-	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t\tBLOCK FREQUENCY TEST\n");
-	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t(a) Chi^2           = %f\n", chi_squared);
-	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t(b) # of substrings = %d\n", N);
-	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t(c) block length    = %d\n", M);
-	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t(d) Note: %d bits were discarded.\n", n % M);
-	fprintf(stats[TEST_BLOCK_FREQUENCY], "\t\t---------------------------------------------\n");
-
-	/*
-	 * p-value と判定結果を出力
-	 *
-	 * p-value < ALPHA :
-	 *     帰無仮説（ランダムである）を棄却 → FAILURE
-	 *
-	 * p-value >= ALPHA :
-	 *     ランダム性を棄却できない → SUCCESS
-	 */
-	fprintf(stats[TEST_BLOCK_FREQUENCY], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_BLOCK_FREQUENCY]);
-	fprintf(results[TEST_BLOCK_FREQUENCY], "%f\n", p_value); fflush(results[TEST_BLOCK_FREQUENCY]);
+	*p_value = cephes_igamc(N/2.0, *chi_squared/2.0);
 }
