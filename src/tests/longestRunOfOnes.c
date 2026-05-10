@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "../include/externs.h"
-#include "../include/cephes.h"  
+#include "../../include/externs.h"
+#include "../../include/cephes.h"  
 
 /* 関数プロトタイプ宣言 */
 int calc_longest_run_of_ones(int n, double *pval, double *chi2, unsigned int *nu, int *M, int *K);

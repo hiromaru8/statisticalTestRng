@@ -33,8 +33,8 @@ $(OBJDIR)/cusum.o: $(SRCDIR)/cusum.c defs.h externs.h
 $(OBJDIR)/runs.o: $(SRCDIR)/tests/runs.c defs.h externs.h
 	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/tests/runs.c
 
-$(OBJDIR)/longestRunOfOnes.o: $(SRCDIR)/longestRunOfOnes.c defs.h externs.h
-	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/longestRunOfOnes.c
+$(OBJDIR)/longestRunOfOnes.o: $(SRCDIR)/tests/longestRunOfOnes.c defs.h externs.h
+	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/tests/longestRunOfOnes.c
 
 $(OBJDIR)/rank.o: $(SRCDIR)/rank.c defs.h externs.h matrix.h
 	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/rank.c
