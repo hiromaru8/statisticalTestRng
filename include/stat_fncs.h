@@ -7,9 +7,14 @@ void	Frequency(int n);
 void    calc_frequency(int n, double *sum, double *s_obs, double *p_value);
 
 void	BlockFrequency(int M, int n);
+void    calc_block_frequency(int M, int n, double *chi_squared, double *p_value);
+
 void	CumulativeSums(int n);
 void	Runs(int n);
+void    calc_runs(int n, double *pi, double *V, double *erfc_arg, double *p_value);
+    
 void	LongestRunOfOnes(int n);
+int     calc_longest_run_of_ones(int n, double *pval, double *chi2, unsigned int *nu, int *M, int *K);
 void	Rank(int n);
 void	DiscreteFourierTransform(int n);
 void	NonOverlappingTemplateMatchings(int m, int n);
