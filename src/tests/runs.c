@@ -2,8 +2,8 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../include/externs.h"
-#include "../include/cephes.h"
+#include "../../include/externs.h"
+#include "../../include/cephes.h"
 
 /* 関数プロトタイプ宣言 */
 void calc_runs(int n, double *pi, double *V, double *erfc_arg, double *p_value);

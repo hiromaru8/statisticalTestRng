@@ -21,17 +21,17 @@ assess: $(OBJ)
 $(OBJDIR)/assess.o: $(SRCDIR)/assess.c defs.h decls.h utilities.h
 	$(CC) -o $@ -c $(SRCDIR)/assess.c
 
-$(OBJDIR)/frequency.o: $(SRCDIR)/frequency.c defs.h externs.h
-	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/frequency.c
+$(OBJDIR)/frequency.o: $(SRCDIR)/tests/frequency.c defs.h externs.h
+	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/tests/frequency.c
 
-$(OBJDIR)/blockFrequency.o: $(SRCDIR)/blockFrequency.c defs.h externs.h
-	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/blockFrequency.c
+$(OBJDIR)/blockFrequency.o: $(SRCDIR)/tests/blockFrequency.c defs.h externs.h
+	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/tests/blockFrequency.c
 
 $(OBJDIR)/cusum.o: $(SRCDIR)/cusum.c defs.h externs.h
 	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/cusum.c
 
-$(OBJDIR)/runs.o: $(SRCDIR)/runs.c defs.h externs.h
-	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/runs.c
+$(OBJDIR)/runs.o: $(SRCDIR)/tests/runs.c defs.h externs.h
+	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/tests/runs.c
 
 $(OBJDIR)/longestRunOfOnes.o: $(SRCDIR)/longestRunOfOnes.c defs.h externs.h
 	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/longestRunOfOnes.c

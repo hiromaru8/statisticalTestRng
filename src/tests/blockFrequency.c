@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "../include/externs.h"
-#include "../include/cephes.h"
+#include "../../include/externs.h"
+#include "../../include/cephes.h"
 
 /* 関数プロトタイプ宣言 */
 void calc_block_frequency(int M, int n, double *chi_squared, double *p_value);

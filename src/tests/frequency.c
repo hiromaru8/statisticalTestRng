@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "../include/externs.h"
+#include "../../include/externs.h"
 
 /* 関数プロトタイプ宣言 */
 void calc_frequency(int n,
