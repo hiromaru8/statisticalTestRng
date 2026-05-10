@@ -4,6 +4,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 void	Frequency(int n);
+void    calc_frequency(int n, double *sum, double *s_obs, double *p_value);
+
 void	BlockFrequency(int M, int n);
 void	CumulativeSums(int n);
 void	Runs(int n);
